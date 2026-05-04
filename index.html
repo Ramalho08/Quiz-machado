@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Machado de Assis</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%238b4513'>M</text></svg>">
+</head>
+<body>
+    <!-- Tela Inicial -->
+    <div class="screen" id="initialScreen">
+        <div class="card">
+            <div class="card-header">
+                <h1>Quiz Machado de Assis</h1>
+                <p class="subtitle">Teste seus conhecimentos sobre o grande escritor!</p>
+            </div>
+            <div class="card-body">
+                <form id="nameForm">
+                    <div class="input-group">
+                        <input 
+                            type="text" 
+                            id="playerName" 
+                            placeholder="Digite seu nome..." 
+                            maxlength="30"
+                            required
+                        >
+                        <span class="input-focus"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-large">
+                        Começar Quiz
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tela do Quiz -->
+    <div class="screen hidden" id="quizScreen">
+        <div class="quiz-header">
+            <div class="header-info">
+                <span class="player-name" id="playerNameDisplay"></span>
+                <span class="score-display" id="scoreDisplay">Pontos: 0</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="question-counter" id="questionCounter">1/5</div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h2 class="question" id="questionText"></h2>
+                
+                <div class="options" id="optionsContainer">
+                    <!-- Opções geradas dinamicamente -->
+                </div>
+
+                <button id="nextButton" class="btn btn-primary btn-large" disabled>
+                    Próxima Pergunta
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tela de Resultado Final -->
+    <div class="screen hidden" id="resultScreen">
+        <div class="card result-card">
+            <div class="result-header">
+                <h1>Quiz Finalizado!</h1>
+                <div class="final-score">
+                    <span id="finalScore">0</span>
+                    <span class="score-label">pontos</span>
+                </div>
+                <p class="player-result" id="playerResult"></p>
+            </div>
+
+            <div class="card-body">
+                <div class="result-message" id="resultMessage"></div>
+
+                <div class="ranking-section">
+                    <h3>🏆 Ranking Top 5</h3>
+                    <table class="ranking-table">
+                        <thead>
+                            <tr>
+                                <th>Posição</th>
+                                <th>Jogador</th>
+                                <th>Pontos</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rankingBody">
+                            <!-- Ranking gerado dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <button id="restartButton" class="btn btn-primary btn-large">
+                    Fazer Quiz Novamente
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
