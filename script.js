@@ -98,7 +98,7 @@ function loadQuestion() {
     scoreDisplay.textContent = `Pontos: ${playerScore}`;
     
     const question = quizQuestions[currentQuestion];
-    questionText.textContent = question.question;
+    questionText.textContent = question.pergunta;
     
     // Atualiza progresso
     updateProgress();
@@ -106,7 +106,7 @@ function loadQuestion() {
 
     // Limpa e carrega opções
     optionsContainer.innerHTML = '';
-    question.options.forEach((option, index) => {
+    question.opcoes.forEach((option, index) => {
         const optionBtn = document.createElement('button');
         optionBtn.className = 'btn option-btn';
         optionBtn.textContent = option;
@@ -134,11 +134,11 @@ function selectAnswer(selectedIndex) {
     });
 
     // Mostra resposta correta
-    const correctBtn = optionButtons[question.correct];
+    const correctBtn = optionButtons[question.resposta];
     correctBtn.classList.add('correct');
 
     // Verifica se acertou
-    if (selectedIndex === question.correct) {
+    if (selectedIndex === question.resposta) {
         playerScore += 10;
         scoreDisplay.textContent = `Pontos: ${playerScore}`;
     } else {
