@@ -1,44 +1,29 @@
 // ===== PERGUNTAS DO QUIZ =====
 const quizQuestions = [
     {
-        question: "Em qual livro Machado de Assis narra a história de um homem que se torna amigo de Cappitu?",
-        options: ["Dom Casmurro", "Quincas Borba", "Memórias Póstumas de Brás Cubas", "Esaú e Jacó"],
-        correct: 0
+       pergunta: "Qual meio de transporte foi introduzido no Rio de Janeiro no século XIX?",
+      opcoes: ["Bonde a tração animal", "Carro a vapor", "Avião", "Bicicleta"],
+      resposta: 0
     },
     {
-        question: "Qual era o principal suspeita do ciúmes de Dom Casmurro em relação a Capitu?",
-        options: ["Seu primo Paulo", "O vizinho português", "Escobar", "O padre seminário"],
-        correct: 2
+      pergunta: "Em qual obra Machado de Assis menciona carruagens?",
+      opcoes: ["Dom Casmurro", "Memórias Póstumas", "Senhora", "Iracema"],
+      resposta: 0
     },
     {
-        question: "Em que século Machado de Assis escreveu a maioria de suas obras?",
-        options: ["XVII", "XVIII", "XIX", "XX"],
-        correct: 2
+      pergunta: "Quem introduziu a estrada de ferro no Brasil?",
+      opcoes: ["D. Pedro II", "Machado de Assis", "Getúlio Vargas", "Barão de Mauá"],
+      resposta: 3
     },
     {
-        question: "Qual é o nome da mãe de Bento Santiago em Dom Casmurro?",
-        options: ["Dona Maria", "Dona Fortunata", "Dona Patrocínio", "Dona Eugênia"],
-        correct: 2
+      pergunta: "Qual era a principal característica dos tilburis?",
+      opcoes: ["Transporte de carga", "Uso em ruas estreitas", "Uso de tração animal", "Veículo elétrico"],
+      resposta: 2
     },
     {
-        question: "O que levou Dom Casmurro a construir uma réplica de sua antiga rua no Rio de Janeiro?",
-        options: ["Fuga da realidade", "Saudade do passado", "Loucura", "Punição de Capitu"],
-        correct: 1
-    },
-    {
-        question: "Qual movimento literário Machado de Assis pertencia?",
-        options: ["Romantismo", "Modernismo", "Realismo", "Naturalismo"],
-        correct: 2
-    },
-    {
-        question: "Em que cidade Machado de Assis nasceu?",
-        options: ["São Paulo", "Rio de Janeiro", "Minas Gerais", "Bahia"],
-        correct: 1
-    },
-    {
-        question: "Qual é a profissão de Bento Santiago antes de conhecer Capitu?",
-        options: ["Advogado", "Comerciante", "Estudante de seminário", "Professor"],
-        correct: 2
+      pergunta: "Quando os bondes elétricos começaram a circular no Rio?",
+      opcoes: ["1860", "1880", "1900", "1920"],
+      resposta: 1
     }
 ];
 
