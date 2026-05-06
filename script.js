@@ -33,6 +33,7 @@ let playerScore = 0;
 let playerName = '';
 let answered = false;
 let gameActive = true;
+let audioEnabled = true;
 
 // ===== ELEMENTOS DO DOM =====
 const initialScreen = document.getElementById('initialScreen');
@@ -52,11 +53,79 @@ const playerResult = document.getElementById('playerResult');
 const resultMessage = document.getElementById('resultMessage');
 const rankingBody = document.getElementById('rankingBody');
 const restartButton = document.getElementById('restartButton');
+const audioControl = document.getElementById('audioControl');
+const backgroundMusic = document.getElementById('backgroundMusic');
 
 // ===== EVENT LISTENERS =====
 nameForm.addEventListener('submit', startQuiz);
 nextButton.addEventListener('click', nextQuestion);
 restartButton.addEventListener('click', restartGame);
+audioControl.addEventListener('click', toggleAudio);
+
+// ===== FUNÇÕES DE ÁUDIO =====
+
+/**
+ * Alterna entre ativar e desativar a música
+ */
+function toggleAudio() {
+    audioEnabled = !audioEnabled;
+    
+    if (audioEnabled) {
+        backgroundMusic.play().catch(error => {
+            console.log('Erro ao reproduzir áudio:', error);
+        });
+        audioControl.classList.remove('muted');
+        audioControl.title = 'Clique para desligar música';
+    } else {
+        backgroundMusic.pause();
+        audioControl.classList.add('muted');
+        audioControl.title = 'Clique para ligar música';
+    }
+}
+
+/**
+ * Reproduz som de acerto
+ */
+function playSuccessSound() {
+    if (!audioEnabled) return;
+    
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.value = 800;
+    oscillator.type = 'sine';
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.2);
+}
+
+/**
+ * Reproduz som de erro
+ */
+function playErrorSound() {
+    if (!audioEnabled) return;
+    
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.value = 300;
+    oscillator.type = 'sine';
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.3);
+}
 
 // ===== FUNÇÕES PRINCIPAIS =====
 
@@ -70,6 +139,13 @@ function startQuiz(e) {
     if (!playerName) {
         alert('Por favor, digite seu nome!');
         return;
+    }
+
+    // Inicia música de fundo
+    if (audioEnabled) {
+        backgroundMusic.play().catch(error => {
+            console.log('Erro ao reproduzir áudio:', error);
+        });
     }
 
     // Transição de telas
@@ -141,9 +217,11 @@ function selectAnswer(selectedIndex) {
     if (selectedIndex === question.resposta) {
         playerScore += 10;
         scoreDisplay.textContent = `Pontos: ${playerScore}`;
+        playSuccessSound();
     } else {
         const selectedBtn = optionButtons[selectedIndex];
         selectedBtn.classList.add('incorrect');
+        playErrorSound();
     }
 
     // Habilita próximo botão com delay
@@ -178,20 +256,26 @@ function finishQuiz() {
     // Define mensagem baseada na pontuação
     const percentage = (playerScore / (quizQuestions.length * 10)) * 100;
     let message = '';
+    let emoji = '';
 
     if (percentage === 100) {
-        message = '🌟 Perfeito! Você é um especialista em Machado de Assis!';
+        message = 'Você é um especialista em Machado de Assis! Conhecimento impecável!';
+        emoji = '🌟';
     } else if (percentage >= 80) {
-        message = '🎉 Excelente! Você conhece muito sobre o autor!';
+        message = 'Excelente desempenho! Você conhece muito sobre o autor e a história!';
+        emoji = '🎉';
     } else if (percentage >= 60) {
-        message = '👍 Bom trabalho! Você tem bom conhecimento sobre Machado.';
+        message = 'Bom trabalho! Você demonstrou sólido conhecimento sobre Machado.';
+        emoji = '👍';
     } else if (percentage >= 40) {
-        message = '📚 Legal! Você pode aprender mais sobre Machado de Assis.';
+        message = 'Legal! Continue estudando, há muito mais para descobrir sobre Machado de Assis!';
+        emoji = '📚';
     } else {
-        message = '💡 Continue estudando! Machado de Assis tem obras incríveis!';
+        message = 'Não desista! Machado de Assis tem obras incríveis esperando por você!';
+        emoji = '💡';
     }
 
-    resultMessage.textContent = message;
+    resultMessage.textContent = `${emoji} ${message}`;
 
     // Salva resultado no localStorage
     saveToRanking(playerName, playerScore);
@@ -232,10 +316,12 @@ function displayRanking() {
         return;
     }
 
+    const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
+
     ranking.forEach((entry, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td><strong>${index + 1}°</strong></td>
+            <td><strong>${medals[index]}</strong></td>
             <td>${entry.name}</td>
             <td><strong>${entry.score}</strong></td>
         `;
@@ -275,3 +361,14 @@ function updateCounter() {
 // ===== INICIALIZAÇÃO =====
 // Foca no input de nome ao carregar
 playerNameInput.focus();
+
+// Auto-pause da música quando a página perde foco
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        backgroundMusic.pause();
+    } else if (audioEnabled) {
+        backgroundMusic.play().catch(error => {
+            console.log('Erro ao reproduzir áudio:', error);
+        });
+    }
+});
