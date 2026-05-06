@@ -33,6 +33,42 @@ body {
     overflow-x: hidden;
 }
 
+/* ===== BOTÃO DE CONTROLE DE ÁUDIO ===== */
+.audio-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-light);
+    background: rgba(99, 102, 241, 0.3);
+    backdrop-filter: blur(10px);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.audio-control:hover {
+    background: rgba(99, 102, 241, 0.5);
+    box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5);
+    transform: scale(1.1);
+}
+
+.audio-control:active {
+    transform: scale(0.95);
+}
+
+.audio-control.muted {
+    opacity: 0.6;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
 /* ===== SCREENS (Telas) ===== */
 .screen {
     width: 100%;
@@ -107,12 +143,14 @@ body {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: 10px;
+    letter-spacing: 1px;
 }
 
 .subtitle {
     color: var(--text-secondary);
     font-size: 1rem;
     font-weight: 500;
+    letter-spacing: 0.5px;
 }
 
 .card-body {
@@ -138,6 +176,7 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    letter-spacing: 0.5px;
 }
 
 .final-score {
@@ -170,6 +209,7 @@ body {
 .score-label {
     font-size: 1.2rem;
     color: var(--text-secondary);
+    font-weight: 600;
 }
 
 .player-result {
@@ -185,10 +225,22 @@ body {
     background: rgba(99, 102, 241, 0.25);
     border-radius: 10px;
     margin-bottom: 25px;
-    font-size: 1rem;
+    font-size: 1.05rem;
     color: var(--text-secondary);
-    line-height: 1.6;
+    line-height: 1.8;
     border: 1px solid rgba(99, 102, 241, 0.4);
+    animation: slideInUp 0.6s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ===== INPUT E FORM ===== */
@@ -207,6 +259,7 @@ input[type="text"] {
     color: var(--text-primary);
     transition: var(--transition);
     backdrop-filter: blur(10px);
+    font-weight: 500;
 }
 
 input[type="text"]:focus {
@@ -214,10 +267,12 @@ input[type="text"]:focus {
     border-color: var(--primary-light);
     background: rgba(255, 255, 255, 0.2);
     box-shadow: 0 0 20px rgba(129, 140, 248, 0.5);
+    transform: translateY(-2px);
 }
 
 input[type="text"]::placeholder {
     color: rgba(224, 231, 255, 0.6);
+    font-weight: 400;
 }
 
 /* ===== QUESTÕES E OPÇÕES ===== */
@@ -229,6 +284,7 @@ input[type="text"]::placeholder {
     line-height: 1.5;
     text-align: center;
     animation: fadeIn 0.5s ease-out;
+    letter-spacing: 0.3px;
 }
 
 .options {
@@ -283,6 +339,19 @@ input[type="text"]::placeholder {
     border-color: var(--success-color);
     color: #d1fae5;
     font-weight: 600;
+    animation: correctPulse 0.5s ease-out;
+}
+
+@keyframes correctPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* Opção errada selecionada */
@@ -291,6 +360,19 @@ input[type="text"]::placeholder {
     border-color: var(--danger-color);
     color: #fee2e2;
     font-weight: 600;
+    animation: shake 0.4s ease-out;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
 }
 
 /* Botões desativados após resposta */
@@ -408,6 +490,18 @@ input[type="text"]::placeholder {
     font-weight: 700;
     font-size: 0.95rem;
     border: 1px solid rgba(129, 140, 248, 0.5);
+    animation: slideInRight 0.6s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 /* ===== BARRA DE PROGRESSO ===== */
@@ -437,6 +531,7 @@ input[type="text"]::placeholder {
     color: var(--text-secondary);
     font-size: 0.95rem;
     font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
 /* Posição do quiz screen */
@@ -455,6 +550,7 @@ input[type="text"]::placeholder {
     font-size: 1.3rem;
     color: var(--text-primary);
     font-weight: 700;
+    letter-spacing: 0.5px;
 }
 
 .ranking-table {
@@ -487,6 +583,10 @@ input[type="text"]::placeholder {
     color: var(--text-secondary);
     font-size: 0.95rem;
     font-weight: 500;
+}
+
+.ranking-table tbody tr {
+    transition: background 0.3s ease;
 }
 
 .ranking-table tbody tr:hover {
@@ -561,6 +661,13 @@ input[type="text"]::placeholder {
         padding: 10px;
         font-size: 0.85rem;
     }
+
+    .audio-control {
+        width: 45px;
+        height: 45px;
+        top: 15px;
+        right: 15px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -608,6 +715,12 @@ input[type="text"]::placeholder {
     #quizScreen .screen {
         padding-top: 120px;
     }
+
+    .audio-control {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
 }
 
 /* ===== SCROLL ===== */
@@ -622,6 +735,7 @@ input[type="text"]::placeholder {
 ::-webkit-scrollbar-thumb {
     background: rgba(129, 140, 248, 0.7);
     border-radius: 10px;
+    transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
